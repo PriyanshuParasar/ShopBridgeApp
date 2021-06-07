@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ShopBridgeModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="s_Employee">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="Role" Type="int" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="s_Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar(max)" />
+          <Property Name="Category" Type="varchar(max)" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Price" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="CreatedByID" Type="int" />
+        </EntityType>
+        <EntityType Name="s_Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__s_Employee__Role__04E4BC85">
+          <End Role="s_Role" Type="Self.s_Role" Multiplicity="0..1" />
+          <End Role="s_Employee" Type="Self.s_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="s_Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="s_Employee">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__s_Product__Creat__07C12930">
+          <End Role="s_Employee" Type="Self.s_Employee" Multiplicity="0..1" />
+          <End Role="s_Product" Type="Self.s_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="s_Employee">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="s_Product">
+              <PropertyRef Name="CreatedByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_AddProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Category" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+          <Parameter Name="CreatedByID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetAllProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetProductWIthProductName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductName" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ModifyProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+          <Parameter Name="Category" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_RegisterEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Role" Type="int" Mode="In" />
+          <Parameter Name="Password" Type="varchar(max)" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ValidateEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="ShopBridgeModelsStoreContainer">
+          <EntitySet Name="s_Employee" EntityType="Self.s_Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="s_Product" EntityType="Self.s_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="s_Role" EntityType="Self.s_Role" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__s_Employee__Role__04E4BC85" Association="Self.FK__s_Employee__Role__04E4BC85">
+            <End Role="s_Role" EntitySet="s_Role" />
+            <End Role="s_Employee" EntitySet="s_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__s_Product__Creat__07C12930" Association="Self.FK__s_Product__Creat__07C12930">
+            <End Role="s_Employee" EntitySet="s_Employee" />
+            <End Role="s_Product" EntitySet="s_Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ShopBridgeModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="s_Employee">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="s_Role" Relationship="Self.FK__s_Employee__Role__6FE99F9F" FromRole="s_Employee" ToRole="s_Role" />
+          <NavigationProperty Name="s_Product" Relationship="Self.FK__s_Product__Creat__4E88ABD4" FromRole="s_Employee" ToRole="s_Product" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="s_Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="CreatedByID" Type="Int32" />
+          <NavigationProperty Name="s_Employee" Relationship="Self.FK__s_Product__Creat__4E88ABD4" FromRole="s_Product" ToRole="s_Employee" />
+        </EntityType>
+        <EntityType Name="s_Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="s_Employee" Relationship="Self.FK__s_Employee__Role__6FE99F9F" FromRole="s_Role" ToRole="s_Employee" />
+        </EntityType>
+        <Association Name="FK__s_Employee__Role__6FE99F9F">
+          <End Role="s_Role" Type="Self.s_Role" Multiplicity="0..1" />
+          <End Role="s_Employee" Type="Self.s_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="s_Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="s_Employee">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__s_Product__Creat__4E88ABD4">
+          <End Role="s_Employee" Type="Self.s_Employee" Multiplicity="0..1" />
+          <End Role="s_Product" Type="Self.s_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="s_Employee">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="s_Product">
+              <PropertyRef Name="CreatedByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ShopBridgeDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="s_Employee" EntityType="Self.s_Employee" />
+          <EntitySet Name="s_Product" EntityType="Self.s_Product" />
+          <EntitySet Name="s_Role" EntityType="Self.s_Role" />
+          <AssociationSet Name="FK__s_Employee__Role__6FE99F9F" Association="Self.FK__s_Employee__Role__6FE99F9F">
+            <End Role="s_Role" EntitySet="s_Role" />
+            <End Role="s_Employee" EntitySet="s_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__s_Product__Creat__4E88ABD4" Association="Self.FK__s_Product__Creat__4E88ABD4">
+            <End Role="s_Employee" EntitySet="s_Employee" />
+            <End Role="s_Product" EntitySet="s_Product" />
+          </AssociationSet>
+          <FunctionImport Name="sp_AddProduct">
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="CreatedByID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteProduct">
+          <Parameter Name="ProductId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAllProducts" ReturnType="Collection(ShopBridgeModels.sp_GetAllProducts_Result)" />
+          <FunctionImport Name="sp_GetProductWIthProductName" ReturnType="Collection(ShopBridgeModels.sp_GetProductWIthProductName_Result)">
+          <Parameter Name="ProductName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ModifyProduct">
+            <Parameter Name="ProductId" Mode="In" Type="Int32" />
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RegisterEmployee">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Role" Mode="In" Type="Int32" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ValidateEmployee" ReturnType="Collection(Int32)">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_GetAllProducts_Result">
+          <Property Type="String" Name="ProductName" Nullable="true" />
+          <Property Type="String" Name="Category" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="12" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_GetProductWIthProductName_Result">
+          <Property Type="String" Name="ProductName" Nullable="true" />
+          <Property Type="String" Name="Category" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="12" Scale="2" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ShopBridgeModelsStoreContainer" CdmEntityContainer="ShopBridgeDbContext">
+          <EntitySetMapping Name="s_Employee">
+            <EntityTypeMapping TypeName="ShopBridgeModels.s_Employee">
+              <MappingFragment StoreEntitySet="s_Employee">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="s_Product">
+            <EntityTypeMapping TypeName="ShopBridgeModels.s_Product">
+              <MappingFragment StoreEntitySet="s_Product">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CreatedByID" ColumnName="CreatedByID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="s_Role">
+            <EntityTypeMapping TypeName="ShopBridgeModels.s_Role">
+              <MappingFragment StoreEntitySet="s_Role">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_AddProduct" FunctionName="ShopBridgeModels.Store.sp_AddProduct" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteProduct" FunctionName="ShopBridgeModels.Store.sp_DeleteProduct" />
+          <FunctionImportMapping FunctionImportName="sp_GetAllProducts" FunctionName="ShopBridgeModels.Store.sp_GetAllProducts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ShopBridgeModels.sp_GetAllProducts_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetProductWIthProductName" FunctionName="ShopBridgeModels.Store.sp_GetProductWIthProductName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ShopBridgeModels.sp_GetProductWIthProductName_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ModifyProduct" FunctionName="ShopBridgeModels.Store.sp_ModifyProduct" />
+          <FunctionImportMapping FunctionImportName="sp_RegisterEmployee" FunctionName="ShopBridgeModels.Store.sp_RegisterEmployee" />
+          <FunctionImportMapping FunctionImportName="sp_ValidateEmployee" FunctionName="ShopBridgeModels.Store.sp_ValidateEmployee" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
