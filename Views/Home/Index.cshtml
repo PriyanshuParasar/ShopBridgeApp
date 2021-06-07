@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Welcome to ShopBridge</h1>
+    <p class="lead">Please login to proceed or signup if you are a new user.</p>
+    <p>
+        @Html.ActionLink("Login", "Login", "Account")
+    </p>
+    <p>
+        @Html.ActionLink("Signup", "Signup", "Account")
+    </p>
+</div>

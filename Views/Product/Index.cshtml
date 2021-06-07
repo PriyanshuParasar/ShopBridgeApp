@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ShopBridgeApp.Models.s_Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@if (@ViewBag.IsUserAdmin)
+{
+    <p>
+        @Html.ActionLink("Add New Product to ShopBridge List", "Create")
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            @if (@ViewBag.IsUserAdmin)
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.ProductId })
+                </td>
+            }
+        </tr>
+    }
+
+</table>
